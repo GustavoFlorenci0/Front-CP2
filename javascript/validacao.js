@@ -74,3 +74,21 @@ senhaRepetidaSignup.addEventListener("keyup", function () {
     }
 })
 
+btnSignup.addEventListener("click", function (e) {
+    let senhaRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+
+    if (!senhaRegex.test(senhaSignup.value)) {
+      alert('A senha deve conter pelo menos uma letra maiúscula, um caractere especial e um número.'); 
+      e.preventDefault();
+    }
+  });
+
+  btnSignup.addEventListener("click", function (){
+    if (senhaSignup.value === senhaRepetidaSignup.value) {
+        // Os valores são iguais
+      } else {
+        // Os valores são diferentes
+        alert('As senhas não coincidem. Por favor, tente novamente.');
+        return false;
+      }
+  });
