@@ -84,4 +84,19 @@ btnSignup.addEventListener("click", function (e) {
         alert('As senhas não coincidem. Por favor, tente novamente.');
         e.preventDefault();
     }
-});
+})
+
+//capitalizar primeira letra do nome e sobrenome, independente da forma de entrada do usuário
+btnSignup.addEventListener('click', () => {
+    let nomeInput = document.getElementById('nomeSignup');
+    let sobrenomeInput = document.getElementById('sobrenomeSignup');
+  
+    let nome = nomeInput.value;
+    let sobrenome = sobrenomeInput.value;
+  
+    let nomeCapitalizado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+    let sobrenomeCapitalizado = sobrenome.charAt(0).toUpperCase() + sobrenome.slice(1).toLowerCase();
+  
+    nomeInput.value = nomeCapitalizado;
+    sobrenomeInput.value = sobrenomeCapitalizado;
+  })
