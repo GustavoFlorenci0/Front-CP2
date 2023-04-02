@@ -7,12 +7,19 @@ let buttomLogin = document.querySelector("button")
 let emailIsValid = false;
 let senhaIsValid = false;
 
+let loginUsuario = {
+    email: "",
+    password: ""
+}
+
+let loginUsuarioJson = ""
+
 function validacaoLogin() {
     if (emailIsValid && senhaIsValid) {
         buttomLogin.removeAttribute("disabled");
         return true;
     } else {
-        buttomLogin.setAttribute("disabled", true);
+        buttomLogin.setAttribute("disabled");
         return false;
     }
 }
@@ -49,3 +56,67 @@ senhaLogin.addEventListener("keyup", function () {
     }
     validacaoLogin() 
 })
+
+buttomLogin.addEventListener("click", async function (evento) {
+
+    //Busca os valores atualizados dos inputs
+    emailLogin = document.getElementById("inputEmail");
+    senhaLogin = document.getElementById("inputPassword");
+
+    if (validacaoLogin()) {
+
+        evento.preventDefault();
+
+        emailLogin = normalizaStringUsandoTrim(emailLogin.value);
+        senhaLogin = normalizaStringUsandoTrim(senhaLogin.value);
+
+        loginUsuario.email = emailLogin;
+        loginUsuario.password = senhaLogin;
+        loginUsuarioJson = JSON.stringify(loginUsuario);
+
+        loginAPI(loginUsuarioJson);
+
+    } 
+    
+    else {
+        alert("Login inválido");
+    }
+
+});
+
+function loginAPI(UsuarioJson) {
+    let request = {
+        method: "POST",
+        body: UsuarioJson,
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+
+    fetch(`${baseUrlApi()}/users/login`, request)
+        .then(resultado => {
+
+            /* Verifica status de sucesso na execução da promisse */
+            if (resultado.status == 201 || resultado.status == 200) {
+                return resultado.json();
+            } else {
+                /* Caso o status não seja sucesso, retorna uma exceção com todo o objeto do "erro" */
+                throw resultado;
+            }
+        }
+        ).then(
+            resultado => {
+                sessionStorage.setItem("jwt", resultado.jwt)
+
+                window.location.href = "tarefas.html";
+            }
+        ).catch(
+            erro => {
+                if (erro.status == 400 || erro.status == 404) {
+                    console.log("E-mail e/ou senha inválidos");
+                    alert("E-mail e/ou senha inválidos");
+                }
+            }
+        );
+}
+
