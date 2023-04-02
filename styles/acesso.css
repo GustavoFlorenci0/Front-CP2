@@ -64,11 +64,21 @@ label {
 
 button {
   padding: .5em 3em;
-  background-color: var(--primary);
+  background-color: #7898FF;
   color: white;
   margin-top: 2em;
   font-weight: 400;
   font-size: 1em;
+}
+
+button:hover {
+  background-color: #1b49e2;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #979292A1;
+  cursor: auto;
 }
 
 .form-header {
