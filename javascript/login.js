@@ -18,13 +18,19 @@ function validacaoLogin() {
     if (emailIsValid && senhaIsValid) {
         buttomLogin.removeAttribute("disabled");
         return true;
-    } else {
-        buttomLogin.setAttribute("disabled");
+    } 
+
+    else {
+        buttomLogin.setAttribute("disabled", true);
         return false;
     }
 }
 
 emailLogin.addEventListener("keyup", function () {
+
+    emailLogin = document.getElementById("inputEmail");
+    smallEmail = document.getElementById("smallEmail");
+
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailLogin.value)) {
         emailLogin.style.backgroundColor = "#ffffff";
         emailLogin.style.borderColor = "red";
@@ -42,6 +48,10 @@ emailLogin.addEventListener("keyup", function () {
 })
 
 senhaLogin.addEventListener("keyup", function () {
+
+    senhaLogin = document.getElementById("inputPassword");
+    smallSenha = document.getElementById("smallSenha");
+
     if (senhaLogin.value.length >= 5) {
         smallSenha.innerText = "";
         senhaLogin.style.borderColor = "green";
@@ -50,7 +60,7 @@ senhaLogin.addEventListener("keyup", function () {
     } else {
         senhaLogin.style.backgroundColor = "#ffffff";
         senhaLogin.style.borderColor = "red";
-        smallSenha.innerText = "Campo obrigatorio";
+        smallSenha.innerText = `Campo obrigatorio, faltam  ${5 - senhaLogin.value.length} caracteres`;
         smallSenha.style.color = "red";
         senhaIsValid = false;
     }
@@ -115,6 +125,7 @@ function loginAPI(UsuarioJson) {
                 if (erro.status == 400 || erro.status == 404) {
                     console.log("E-mail e/ou senha inválidos");
                     alert("E-mail e/ou senha inválidos");
+
                 }
             }
         );
