@@ -20,6 +20,7 @@ onload = function () {
     jwt = sessionStorage.getItem("token");
 
     obterNomeUsuario();
+    obterTarefasUsuario()
 }
 
 function obterNomeUsuario() {
@@ -53,7 +54,42 @@ function obterNomeUsuario() {
         );
 }
 
-function NomeUsuario(usuario) {
+function NomeUsuario(nomeUsuario) {
     let userInfoP = document.getElementById("nomeUsuario");
-    userInfoP.innerText = `${usuario.firstName} ${usuario.lastName}`
+    userInfoP.innerText = `${nomeUsuario.firstName} ${nomeUsuario.lastName}`
+}
+
+function obterTarefasUsuario() {
+    let request = {
+        headers: {
+            'Authorization': jwt
+        }
+    }
+
+    fetch(`${baseUrlApi()}/tasks`, request)
+    .then(resultado => {
+
+        if (resultado.status == 201 || resultado.status == 200) {
+            return resultado.json();
+        } else {
+
+            throw resultado;
+        }
+    }
+    ).then(
+        resultado => {
+            TarefasUsuario(resultado)
+        }
+        )
+        .catch(
+            erro => {
+                if (erro.status == 400 || erro.status == 404) {
+                    console.log("error");
+                }
+            }
+        );
+}
+
+function TarefasUsuario(tarefas) {
+   console.log(tarefas)
 }
