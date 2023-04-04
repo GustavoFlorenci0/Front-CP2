@@ -15,6 +15,7 @@ let loginUsuario = {
 
 let loginUsuarioJson = ""
 
+//validações;
 //função para habilitar/desabilitar o botão
 function validacaoLogin() {
     if (emailIsValid && senhaIsValid) {
@@ -71,6 +72,7 @@ senhaLogin.addEventListener("keyup", function () {
     validacaoLogin() 
 })
 
+//funçoes da API
 //evento do botão que apos clicar seja realizado o login 
 buttomLogin.addEventListener("click", async function (evento) {
 

@@ -25,7 +25,7 @@ novaTarefa.addEventListener("keyup", function () {
         btnNovaTarefa.setAttribute("disabled", "");
         novaTarefa.style.backgroundColor = "#ffffff";
         novaTarefa.style.borderColor = "red";
-        smallNovaTarefa.innerText = `Min. ${5 - novaTarefa.value.length} caracteres`;
+        smallNovaTarefa.innerText = `faltam ${5 - novaTarefa.value.length} caracteres`;
         tarefaIsValid = false;
         smallNovaTarefa.style.color = "red";
     }

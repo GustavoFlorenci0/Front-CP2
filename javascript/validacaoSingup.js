@@ -1,5 +1,4 @@
-// buscando os itens a validar.
-
+// declaração de variaveis globais
 let nomeSignup = document.getElementById("nomeSignup");
 let sobrenomeSignup = document.getElementById("sobrenomeSignup");
 let emailSignup = document.getElementById("emailSignup");
@@ -62,6 +61,7 @@ btnSignup.addEventListener("click", async function (evento) {
     }
 });
 
+//função que se comunica com a API e cria o usuario
 function SingupAPI(UsuarioJson) {
     let request = {
         method: "POST",
@@ -94,8 +94,7 @@ function SingupAPI(UsuarioJson) {
 }
 
 // validando informações; 
-
-
+//função que habilita e desabilita o botão 
 function validaLogin() {
     if (nameIsValid && sobrenomeIsValid && emailIsValid && senhaRepetidaIsValid) {
 
@@ -111,6 +110,7 @@ function validaLogin() {
     }
 }
 
+//evento para validaçao do nome 
 nomeSignup.addEventListener("keyup", function () {
 
     nomeSignup = document.getElementById("nomeSignup");
@@ -130,6 +130,7 @@ nomeSignup.addEventListener("keyup", function () {
     validaLogin()
 })
 
+//evento para validaçao do sobrenome 
 sobrenomeSignup.addEventListener("keyup", function () {
 
     sobrenomeSignup = document.getElementById("sobrenomeSignup");
@@ -149,6 +150,7 @@ sobrenomeSignup.addEventListener("keyup", function () {
     validaLogin()
 })
 
+//evento para validaçao do email
 emailSignup.addEventListener("keyup", function () {
 
     emailSignup = document.getElementById("emailSignup");
@@ -167,6 +169,7 @@ emailSignup.addEventListener("keyup", function () {
     validaLogin()
 })
 
+//evento para validaçao da senha
 senhaSignup.addEventListener("keyup", function () {
 
     senhaSignup = document.getElementById("senhaSignup");
@@ -187,6 +190,7 @@ senhaSignup.addEventListener("keyup", function () {
     validaLogin()
 })
 
+//evento para validaçao da senha repetida
 senhaRepetidaSignup.addEventListener("keyup", function () {
 
     senhaSignup = document.getElementById("senhaSignup");
