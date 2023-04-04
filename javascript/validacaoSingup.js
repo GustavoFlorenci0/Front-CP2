@@ -74,12 +74,11 @@ function SingupAPI(UsuarioJson) {
     fetch(`${baseUrlApi()}/users`, request)
         .then(resultado => {
 
-            /* Verifica status de sucesso na execução da promisse */
             if (resultado.status == 201 || resultado.status == 200) {
                 window.location.href = "index.html";
                 return resultado.json();
             } else {
-                /* Caso o status não seja sucesso, retorna uma exceção com todo o objeto do "erro" */
+
                 throw resultado;
             }
         }

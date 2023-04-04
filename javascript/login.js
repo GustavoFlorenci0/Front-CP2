@@ -1,3 +1,4 @@
+//declaração de variaveis globais
 let emailLogin = document.getElementById("inputEmail");
 let senhaLogin = document.getElementById("inputPassword");
 let smallEmail = document.getElementById("smallEmail");
@@ -14,6 +15,7 @@ let loginUsuario = {
 
 let loginUsuarioJson = ""
 
+//função para habilitar/desabilitar o botão
 function validacaoLogin() {
     if (emailIsValid && senhaIsValid) {
         buttomLogin.removeAttribute("disabled");
@@ -26,6 +28,7 @@ function validacaoLogin() {
     }
 }
 
+//evento para a validação do email
 emailLogin.addEventListener("keyup", function () {
 
     emailLogin = document.getElementById("inputEmail");
@@ -47,6 +50,7 @@ emailLogin.addEventListener("keyup", function () {
 
 })
 
+//evento para a validação da senha 
 senhaLogin.addEventListener("keyup", function () {
 
     senhaLogin = document.getElementById("inputPassword");
@@ -67,9 +71,9 @@ senhaLogin.addEventListener("keyup", function () {
     validacaoLogin() 
 })
 
+//evento do botão que apos clicar seja realizado o login 
 buttomLogin.addEventListener("click", async function (evento) {
 
-    //Busca os valores atualizados dos inputs
     emailLogin = document.getElementById("inputEmail");
     senhaLogin = document.getElementById("inputPassword");
 
@@ -94,6 +98,7 @@ buttomLogin.addEventListener("click", async function (evento) {
 
 });
 
+//função de comunicação com a API e seus resultados
 function loginAPI(UsuarioJson) {
     let request = {
         method: "POST",
@@ -106,17 +111,16 @@ function loginAPI(UsuarioJson) {
     fetch(`${baseUrlApi()}/users/login`, request)
         .then(resultado => {
 
-            /* Verifica status de sucesso na execução da promisse */
             if (resultado.status == 201 || resultado.status == 200) {
                 return resultado.json();
             } else {
-                /* Caso o status não seja sucesso, retorna uma exceção com todo o objeto do "erro" */
+
                 throw resultado;
             }
         }
         ).then(
             resultado => {
-                sessionStorage.setItem("jwt", resultado.jwt)
+                sessionStorage.setItem("token", resultado.jwt)
 
                 window.location.href = "tarefas.html";
             }
