@@ -46,6 +46,10 @@ a {
   cursor: pointer;
 }
 
+#closeApp:hover{
+  background-color: rgb(201, 9, 9);
+}
+
 /* Nova tarefa ----------------------------------------------------------- */
 
 .nova-tarefa {
