@@ -2,6 +2,9 @@
 let novaTarefa = document.getElementById("novaTarefa");
 let btnNovaTarefa = document.getElementById("btnAddTarefa");
 let smallNovaTarefa = document.getElementById("smallNovaTarefa");
+let tarefasPendentes = document.querySelector(".tarefas-pendentes")
+let tarefasTerminadas = document.querySelector(".tarefas-terminadas")
+let closeApp = document.getElementById("closeApp")
 let jwt;
 
 let tarefaIsValid = false;
@@ -37,7 +40,7 @@ onload = function () {
     jwt = sessionStorage.getItem("token");
 
     obterNomeUsuario();
-    obterTarefasUsuario()
+    obterTarefasUsuario();
 }
 
 //funçao para buscar o nome do usuario
@@ -98,7 +101,7 @@ function obterTarefasUsuario() {
     }
     ).then(
         resultado => {
-            AntigasTarefasUsuario(resultado)
+            adicinarTarefas(resultado)
         }
         )
         .catch(
@@ -110,10 +113,111 @@ function obterTarefasUsuario() {
         );
 }
 
-//função que mostra no console as tarefas ja ciadas 
-function AntigasTarefasUsuario(tarefas) {
+//função que mostra no console as tarefas ja criadas 
+function adicinarTarefas(tarefas) {
    console.log(tarefas)
+
+   for(let tarefa of tarefas){
+    if(tarefa.completed){
+
+        let li = document.createElement("li");
+        li.classList.add("tarefa");
+        li.innerHTML = `  <div class="done"></div>
+                            <div class="descricao">
+                            <p class="nome">${tarefa.description}</p>
+                            <div>
+                                <button><i id="${tarefa.id}" class="fas fa-undo-alt change" onclick="AlteraStatus(${tarefa})"></i></button>
+                                <button><i id="${tarefa.id}" class="far fa-trash-alt" onclick="DeletaTarefaAPI(${tarefa.id})"></i></button>
+                            </div>
+                            </div>`;
+        tarefasTerminadas.appendChild(li);
+    }else{
+        let li = document.createElement("li");
+        li.classList.add("tarefa");
+        li.innerHTML = ` <buttom class="not-done" id="${tarefa.id} onclick="AlteraStatus(${tarefa})"></buttom>
+                            <div class="descricao">
+                            <p class="nome">${tarefa.description}</p>
+                            <p class="timestamp"><i class="far fa-calendar-alt"></i> ${tarefa.createdAt}</p>
+                            </div>`;
+        tarefasPendentes.appendChild(li);
+
+    }
+   }
 }
+
+//função que para definir o body e realizar a troca de status
+function AlteraStatus(tarefa){
+        if(tarefa.completed == true){
+            loginUsuario.description = tarefa.description
+            loginUsuario.completed = false;
+        }else{
+            loginUsuario.description = tarefa.description
+            loginUsuario.completed = true
+        }
+        loginUsuarioJson = JSON.stringify(loginUsuario);
+
+        AtualizaTarefaAPI(loginUsuarioJson, tarefa.id);
+}
+
+//função que modifica o statusda tarefa
+function AtualizaTarefaAPI(tarefaJson,IdTarefa) {
+    let request = {
+        method: "PUT",
+        body: tarefaJson,
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': jwt
+        }
+    }
+
+    fetch(`${baseUrlApi()}/tasks/${IdTarefa}`, request)
+        .then(resultado => {
+
+            if (resultado.status == 201 || resultado.status == 200) {
+                return resultado.json();
+            } else {
+
+                throw resultado;
+            }
+        }
+        ) .catch(
+                erro => {
+                    if (erro.status == 400 || erro.status == 404) {
+                        console.log("error");
+                    }
+                }
+            );
+}
+
+//função para deletar tarefa
+function DeletaTarefaAPI(IdTarefa) {
+    let request = {
+        method: "DELETE",
+        headers: {
+            'Authorization': jwt
+        }
+    }
+
+    fetch(`${baseUrlApi()}/tasks/${IdTarefa}`, request)
+        .then(resultado => {
+
+            if (resultado.status == 201 || resultado.status == 200) {
+                return resultado.json();
+            } else {
+
+                throw resultado;
+            }
+        }
+        ) .catch(
+                erro => {
+                    if (erro.status == 400 || erro.status == 404) {
+                        console.log("error");
+                    }
+                }
+            );
+}
+
+
 
 //evento do botão que cria e conversa com a API
 btnNovaTarefa.addEventListener("click", async function (e) {
@@ -162,7 +266,7 @@ function TarefaAPI(tarefaJson) {
         }
         ).then(
             resultado => {
-                NovasTarefasUsuario(resultado)
+                adicinarTarefas(resultado)
             }
             )
             .catch(
@@ -173,8 +277,11 @@ function TarefaAPI(tarefaJson) {
                 }
             );
     }
-    
-//função que adiciona a nova tarefa no console
-function NovasTarefasUsuario(tarefas) {
-    console.log(tarefas)
-}
+
+//evento para encerrar cessão
+closeApp.addEventListener("click", async function(e){
+    e.preventDefault();
+    sessionStorage.removeItem("token");
+
+    window.location.href = "index.html";
+})
