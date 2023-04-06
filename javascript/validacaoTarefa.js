@@ -18,7 +18,7 @@ let taskUsuarioJson = ""
 
 //evento para validaçao da nova tarefa e do botão
 novaTarefa.addEventListener("keyup", function () {
-    if (novaTarefa.value.length > 4) {
+    if (novaTarefa.value.length > 5) {
         smallNovaTarefa.innerText = "";
         novaTarefa.style.borderColor = "green";
         tarefaIsValid = true;
@@ -29,7 +29,7 @@ novaTarefa.addEventListener("keyup", function () {
         btnNovaTarefa.setAttribute("disabled", "");
         novaTarefa.style.backgroundColor = "#ffffff";
         novaTarefa.style.borderColor = "red";
-        smallNovaTarefa.innerText = `faltam ${5 - novaTarefa.value.length} caracteres`;
+        smallNovaTarefa.innerText = `faltam ${6 - novaTarefa.value.length} caracteres`;
         tarefaIsValid = false;
         smallNovaTarefa.style.color = "red";
     }
