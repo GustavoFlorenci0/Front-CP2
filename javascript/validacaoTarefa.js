@@ -136,7 +136,7 @@ function adicinarTarefas(tarefas) {
     }else{
         let li = document.createElement("li");
         li.classList.add("tarefa");
-        li.innerHTML = ` <button><div class="not-done" id="${tarefa.id} onclick="AlteraStatus(${tarefa.id})"></div></button>
+        li.innerHTML = ` <button><div class="not-done" id="${tarefa.id}" onclick="AlteraStatus(${tarefa.id})"></div></button>
                             <div class="descricao">
                             <p class="nome">${tarefa.description}</p>
                             <p class="timestamp"><i class="far fa-calendar-alt"></i> ${tarefa.createdAt}</p>
