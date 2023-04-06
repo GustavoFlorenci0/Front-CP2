@@ -5,15 +5,16 @@ let smallNovaTarefa = document.getElementById("smallNovaTarefa");
 let tarefasPendentes = document.querySelector(".tarefas-pendentes")
 let tarefasTerminadas = document.querySelector(".tarefas-terminadas")
 let closeApp = document.getElementById("closeApp")
+let listaTarefasGlobal = [];
 let jwt;
 
 let tarefaIsValid = false;
 
-let loginUsuario ={
+let taskUsuario ={
     description: "",
     completed: false
   }
-let loginUsuarioJson = ""
+let taskUsuarioJson = ""
 
 //evento para validaçao da nova tarefa e do botão
 novaTarefa.addEventListener("keyup", function () {
@@ -113,9 +114,10 @@ function obterTarefasUsuario() {
         );
 }
 
-//função que mostra no console as tarefas ja criadas 
+//função que mostra no console as tarefas ja criadas e selciona se a tarefa é pendente ou terminada
 function adicinarTarefas(tarefas) {
    console.log(tarefas)
+   listaTarefasGlobal = tarefas;
 
    for(let tarefa of tarefas){
     if(tarefa.completed){
@@ -126,7 +128,7 @@ function adicinarTarefas(tarefas) {
                             <div class="descricao">
                             <p class="nome">${tarefa.description}</p>
                             <div>
-                                <button><i id="${tarefa.id}" class="fas fa-undo-alt change" onclick="AlteraStatus(${tarefa})"></i></button>
+                                <button><i id="${tarefa.id}" class="fas fa-undo-alt change" onclick="AlteraStatus(${tarefa.id})"></i></button>
                                 <button><i id="${tarefa.id}" class="far fa-trash-alt" onclick="DeletaTarefaAPI(${tarefa.id})"></i></button>
                             </div>
                             </div>`;
@@ -134,7 +136,7 @@ function adicinarTarefas(tarefas) {
     }else{
         let li = document.createElement("li");
         li.classList.add("tarefa");
-        li.innerHTML = ` <buttom class="not-done" id="${tarefa.id} onclick="AlteraStatus(${tarefa})"></buttom>
+        li.innerHTML = ` <button><div class="not-done" id="${tarefa.id} onclick="AlteraStatus(${tarefa.id})"></div></button>
                             <div class="descricao">
                             <p class="nome">${tarefa.description}</p>
                             <p class="timestamp"><i class="far fa-calendar-alt"></i> ${tarefa.createdAt}</p>
@@ -146,17 +148,20 @@ function adicinarTarefas(tarefas) {
 }
 
 //função que para definir o body e realizar a troca de status
-function AlteraStatus(tarefa){
-        if(tarefa.completed == true){
-            loginUsuario.description = tarefa.description
-            loginUsuario.completed = false;
-        }else{
-            loginUsuario.description = tarefa.description
-            loginUsuario.completed = true
-        }
-        loginUsuarioJson = JSON.stringify(loginUsuario);
+function AlteraStatus(tarefaId){
 
-        AtualizaTarefaAPI(loginUsuarioJson, tarefa.id);
+        let tarefa =  listaTarefasGlobal.find(e => e.id == tarefaId);
+
+        if(tarefa.completed == true){
+            taskUsuario.description = tarefa.description
+            taskUsuario.completed = false;
+        }else{
+            taskUsuario.description = tarefa.description
+            taskUsuario.completed = true
+        }
+        taskUsuarioJson = JSON.stringify(taskUsuario);
+
+        AtualizaTarefaAPI(taskUsuarioJson, tarefa.id);
 }
 
 //função que modifica o statusda tarefa
@@ -179,6 +184,9 @@ function AtualizaTarefaAPI(tarefaJson,IdTarefa) {
 
                 throw resultado;
             }
+        })
+        .then(resultado => {
+            window.location.reload()
         }
         ) .catch(
                 erro => {
@@ -208,7 +216,10 @@ function DeletaTarefaAPI(IdTarefa) {
                 throw resultado;
             }
         }
-        ) .catch(
+        )
+        .then(resultado => {
+            window.location.reload()
+        }) .catch(
                 erro => {
                     if (erro.status == 400 || erro.status == 404) {
                         console.log("error");
@@ -230,10 +241,10 @@ btnNovaTarefa.addEventListener("click", async function (e) {
 
         novaTarefa = normalizaStringUsandoTrim(novaTarefa.value);
 
-        loginUsuario.description = novaTarefa;
-        loginUsuarioJson = JSON.stringify(loginUsuario);
+        taskUsuario.description = novaTarefa;
+        taskUsuarioJson = JSON.stringify(taskUsuario);
 
-        TarefaAPI(loginUsuarioJson);
+        TarefaAPI(taskUsuarioJson);
 
     } 
     
@@ -264,11 +275,10 @@ function TarefaAPI(tarefaJson) {
                 throw resultado;
             }
         }
-        ).then(
-            resultado => {
+        ).then(resultado => {
+                window.location.reload()
                 adicinarTarefas(resultado)
-            }
-            )
+            })
             .catch(
                 erro => {
                     if (erro.status == 400 || erro.status == 404) {
