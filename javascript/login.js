@@ -110,6 +110,8 @@ function loginAPI(UsuarioJson) {
         }
     }
 
+    mostrarSpinner()
+
     fetch(`${baseUrlApi()}/users/login`, request)
         .then(resultado => {
 
@@ -122,6 +124,9 @@ function loginAPI(UsuarioJson) {
         }
         ).then(
             resultado => {
+                 setTimeout(() => {
+                  ocultarSpinner()
+                 }, 2000);
                 sessionStorage.setItem("token", resultado.jwt)
 
                 window.location.href = "tarefas.html";
@@ -129,6 +134,9 @@ function loginAPI(UsuarioJson) {
         ).catch(
             erro => {
                 if (erro.status == 400 || erro.status == 404) {
+                    setTimeout(() => {
+                        ocultarSpinner()
+                       }, 1500);
                     console.log("E-mail e/ou senha inválidos");
                     alert("E-mail e/ou senha inválidos");
 

@@ -71,6 +71,7 @@ function SingupAPI(UsuarioJson) {
         }
     }
 
+    mostrarSpinner();
     fetch(`${baseUrlApi()}/users`, request)
         .then(resultado => {
 
@@ -82,9 +83,18 @@ function SingupAPI(UsuarioJson) {
                 throw resultado;
             }
         }
+        ).then(
+            resultado => { 
+                 setTimeout(() => {
+                  ocultarSpinner()
+                 }, 2000);
+            }
         ).catch(
             erro => {
                 if (erro.status == 400) {
+                     setTimeout(() => {
+                    ocultarSpinner()
+                     }, 1500);
                     console.log("Usuario ja existe");
                     alert("Usuário já existe");
 

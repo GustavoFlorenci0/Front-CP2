@@ -90,6 +90,9 @@ function obterTarefasUsuario() {
         }
     }
 
+    renderizarSkeletons(4 , ".tarefas-pendentes")
+    renderizarSkeletons(2 , ".tarefas-terminadas")
+
     fetch(`${baseUrlApi()}/tasks`, request)
     .then(resultado => {
 
@@ -102,12 +105,16 @@ function obterTarefasUsuario() {
     }
     ).then(
         resultado => {
-            adicinarTarefas(resultado)
+            setTimeout(() => {
+                adicinarTarefas(resultado)
+            }, 1500);
         }
         )
         .catch(
             erro => {
                 if (erro.status == 400 || erro.status == 404) {
+                    removerSkeleton(".tarefas-pendentes")
+                    removerSkeleton(".tarefas-terminadas")
                     console.log("error");
                 }
             }
@@ -116,6 +123,10 @@ function obterTarefasUsuario() {
 
 //função que mostra no console as tarefas ja criadas e selciona se a tarefa é pendente ou terminada
 function adicinarTarefas(tarefas) {
+
+    removerSkeleton(".tarefas-pendentes")
+    removerSkeleton(".tarefas-terminadas")
+
    console.log(tarefas)
    listaTarefasGlobal = tarefas;
 
