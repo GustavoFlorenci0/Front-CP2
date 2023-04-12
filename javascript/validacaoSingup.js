@@ -26,7 +26,7 @@ let usuarioJson = "";
 
 
 // adicionando um evento para cadastro
-
+/*
 btnSignup.addEventListener("click", async function (evento) {
 
     // busca valores atualizados
@@ -60,6 +60,67 @@ btnSignup.addEventListener("click", async function (evento) {
         alert ("login invalid");
     }
 });
+*/
+
+
+// adicionando um evento para cadastro
+btnSignup.addEventListener("click", async function (evento) {
+
+    // busca valores atualizados
+    nomeSignup = document.querySelector("#nomeSignup");
+    sobrenomeSignup = document.querySelector("#sobrenomeSignup");
+    emailSignup = document.querySelector("#emailSignup");
+    senhaSignup = document.querySelector("#senhaSignup");
+    senhaRepetidaSignup = document.querySelector("#senhaRepetidaSignup");
+
+    //capitalizar primeira letra do nome e sobrenome, independente da forma de entrada do usuário
+    let nomeInput = document.getElementById('nomeSignup');
+    let sobrenomeInput = document.getElementById('sobrenomeSignup');
+
+    let nome = nomeInput.value;
+    let sobrenome = sobrenomeInput.value;
+
+    let nomeCapitalizado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+    let sobrenomeCapitalizado = sobrenome.charAt(0).toUpperCase() + sobrenome.slice(1).toLowerCase();
+
+    nomeInput.value = nomeCapitalizado;
+    sobrenomeInput.value = sobrenomeCapitalizado;
+
+    // normaliza as strings de entrada do usuário
+    nomeSignup.value = normalizaStringUsandoTrim(nomeSignup.value);
+    sobrenomeSignup.value = normalizaStringUsandoTrim(sobrenomeSignup.value);
+    emailSignup.value = normalizaStringUsandoTrim(emailSignup.value);
+    senhaRepetidaSignup.value = normalizaStringUsandoTrim(senhaRepetidaSignup.value);
+
+    if (validaLogin()) {
+
+        evento.preventDefault();
+
+        usuarioJs = {
+            firstName: nomeSignup.value,
+            lastName: sobrenomeSignup.value,
+            email: emailSignup.value,
+            password: senhaRepetidaSignup.value
+        }
+
+        usuarioJson = JSON.stringify(usuarioJs);
+
+        SingupAPI(usuarioJson);
+    } else {
+        alert ("login invalid");
+    }
+
+    
+    let senhaRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+
+    if (!senhaRegex.test(senhaSignup.value)) {
+        alert('A senha deve conter pelo menos uma letra maiúscula, um caractere especial e um número.');
+        evento.preventDefault();
+    } else if (senhaSignup.value !== senhaRepetidaSignup.value) {
+        alert('As senhas não coincidem. Por favor, tente novamente.');
+        }
+});
+
 
 //função que se comunica com a API e cria o usuario
 function SingupAPI(UsuarioJson) {
@@ -226,21 +287,6 @@ senhaRepetidaSignup.addEventListener("keyup", function () {
         senhaRepetidaIsValid = false;
     }
     validaLogin()
-})
-
-//capitalizar primeira letra do nome e sobrenome, independente da forma de entrada do usuário
-btnSignup.addEventListener('click', () => {
-    let nomeInput = document.getElementById('nomeSignup');
-    let sobrenomeInput = document.getElementById('sobrenomeSignup');
-
-    let nome = nomeInput.value;
-    let sobrenome = sobrenomeInput.value;
-
-    let nomeCapitalizado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
-    let sobrenomeCapitalizado = sobrenome.charAt(0).toUpperCase() + sobrenome.slice(1).toLowerCase();
-
-    nomeInput.value = nomeCapitalizado;
-    sobrenomeInput.value = sobrenomeCapitalizado;
 })
 
 // https://github.com/xk08/DH_Turma2_N2_BI0223_FrontEnd2_2023/blob/main/Aula20--APIs_II_To-Do_App/scripts/login/index.js
