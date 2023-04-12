@@ -138,10 +138,18 @@ function loginAPI(UsuarioJson) {
                         ocultarSpinner()
                        }, 1500);
                     console.log("E-mail e/ou senha inválidos");
-                    alert("E-mail e/ou senha inválidos");
+                    erroMensagem()
 
                 }
             }
         );
+}
+
+function erroMensagem(){
+    Swal.fire(
+        'Erro',
+        'Email e/ou senha invalido.',
+        'error'
+      )
 }
 

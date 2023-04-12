@@ -96,11 +96,18 @@ function SingupAPI(UsuarioJson) {
                     ocultarSpinner()
                      }, 1500);
                     console.log("Usuario ja existe");
-                    alert("Usuário já existe");
+                    erroMensagem()
 
                 }
             }
         );
+}
+function erroMensagem(){
+    Swal.fire(
+        'Erro',
+        'Usuario ja existe.',
+        'error'
+      )
 }
 
 // validando informações; 

@@ -107,7 +107,7 @@ function obterTarefasUsuario() {
         resultado => {
             setTimeout(() => {
                 adicinarTarefas(resultado)
-            }, 1500);
+            }, 1000);
         }
         )
         .catch(
@@ -302,7 +302,24 @@ function TarefaAPI(tarefaJson) {
 //evento para encerrar cessão
 closeApp.addEventListener("click", async function(e){
     e.preventDefault();
-    sessionStorage.removeItem("token");
-
-    window.location.href = "index.html";
+    finalizandoSessao()
 })
+
+function finalizandoSessao(){
+    Swal.fire({
+        title: 'Sair?',
+        text: "Realmente deseja sair da pagina?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#7898FF',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            sessionStorage.removeItem("token");
+
+            window.location.href = "index.html";
+        }
+      })
+}
