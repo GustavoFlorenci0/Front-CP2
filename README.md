@@ -1,22 +1,36 @@
-Este é um modelo de como pode ser informada a contribuição de cada membro do grupo no checkpoint 2 da disciplina de Front end 2.
+Contribuição de cada membro do grupo no checkpoint 2 da disciplina de Front end 2.
 
 ## Autores (Contribuições)
 
-- [Marcos V. Martins](https://www.github.com/xk08)
+- [Felipe Levy Stephens Fidelix](https://github.com/felipe-2833)
     - Principais atividades realizadas:
-        - Layout do Login;
-        - Tela de login;
+        - Responsavel do Login;
+        - Participação cadastro e tarefas;
         - Comunicação inicial com a API;
-        - Endpoint: /login
+        - Endpoint: /users
+        - Endpoint: /users/login
+        - Endpoint: /Tasks - PUT
+        - Endpoint: /Tasks - DELETE
+        - Endpoint: /Tasks - POST
         
-- [Aluna A](https://www.github.com/xk08)
+- [Gustavo florencio da silva](https://github.com/GustavoFlorenci0)
     - Principais atividades realizadas:
-        - Layout do Cadastro;
+        - Responsavel do Cadastro;
         - Tela de Cadastro;
-        - Endpoint: /criarCadastro;
+        - Endpoint: /users
 
-- [Aluno B](https://www.github.com/xk08)
+- [Artur Miguel do Nascimento Campos](https://github.com/arturmnc)
     - Principais atividades realizadas:
-        - Escolha do layout do projeto;
+        - Auxiliar Tarefas e cadastro
+        - Realizou codigo de verificação nome e sobrenome no cadastro
         - Revisões de código;
-        - Alertas e pop-up;
+        - Endpoint: /users/getMe
+        - Endpoint: /Tasks - POST
+
+- [Raissa da Luz Nogueira de Toledo](https://github.com/RaissaLNToledo)
+    - Principais atividades realizadas:
+        - Responsavel das Tarefas;
+        - Endpoint: /Tasks - DELETE
+        - Endpoint: /Tasks - POST
+
+
